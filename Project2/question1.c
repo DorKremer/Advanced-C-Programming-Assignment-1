@@ -102,23 +102,26 @@ void printArray(int *arr, int n)
 int arrangeArray(int **arr, int n)
 {
 	// your code:
-  int min = (*arr)[0], low = 0, high = n - 2, mid = -1;
-	while (low < high) {
-		mid = (low + high) / 2;
-		if ((*arr)[mid]>(*arr)[mid+1]) {
-			mid=mid+1;
+ int min = (*arr)[0], low = 0, high = n - 2, mid = -1;
+	while (low <= high) {
+		mid = ((high-low) / 2)+low;
+		if ((*arr)[mid] > (*arr)[mid + 1]) {
+			break;
 		}
-		else if ((*arr)[mid] < min) {
-			high = mid-1;
+	    if ((*arr)[mid] < min) {
+			high = mid - 1;
 		}
-		else if ((*arr)[mid] > min) {
-			low = mid+1;
+		else {
+			low = mid + 1;
 		}
 	}
-	mid=mid+2;
-	*arr =(int*)realloc(*arr, (n+mid)*sizeof(int));
-	if(*arr)
-		memcpy(*arr, (*arr)[n], mid * sizeof(int));
+	mid = mid + 1;
+	*arr = (int*)realloc(*arr,  (n+mid)* sizeof(int));
+	if (*arr) {
+		memcpy(*arr+n, *arr, mid * sizeof(int));
+		memcpy(*arr, *arr+mid, n * sizeof(int));
+		*arr = (int*)realloc(*arr, n * sizeof(int));
+	}
 	return mid;
 }
 // --------------------------- //
